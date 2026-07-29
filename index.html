@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PowerLog — Offline Strength Tracker</title>
+<meta name="description" content="PowerLog is the offline fitness companion for lifters who want to track routines, PRs, and body stats without an account or the cloud.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- AOS (scroll animations) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+<style>
+:root{
+  --black:#09090b;
+  --charcoal:#141519;
+  --charcoal-2:#1b1d23;
+  --steel:#2a2c33;
+  --steel-soft:#232530;
+  --ember:#ff5e1a;
+  --ember-2:#ff8a3d;
+  --gold:#ffb020;
+  --bone:#f4f1ea;
+  --smoke:#9497a2;
+  --smoke-dim:#5d6070;
+  --radius:14px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--black);
+  color:var(--bone);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+  position:relative;
+}
+::selection{background:var(--ember);color:#0a0a0a;}
+
+h1,h2,h3,.display-font{
+  font-family:'Anton',sans-serif;
+  font-weight:400;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  line-height:0.98;
+}
+.mono{font-family:'JetBrains Mono',monospace;}
+
+a{text-decoration:none;color:inherit;}
+.container-xl-custom{max-width:1240px;margin:0 auto;padding-left:24px;padding-right:24px;}
+
+/* ---------- Background texture ---------- */
+.grain-bg{
+  position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.05;
+  background-image:radial-gradient(circle at 1px 1px, #fff 1px, transparent 0);
+  background-size:26px 26px;
+}
+.glow-ember{
+  position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none;
+  background:radial-gradient(circle, rgba(255,94,26,0.35), transparent 70%);
+}
+
+/* ---------- Nav ---------- */
+.navbar-power{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(9,9,11,0.75);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  transition:background .3s ease;
+}
+.navbar-power .brand-mark{
+  display:flex;align-items:center;gap:10px;
+}
+.navbar-power .brand-mark img{
+  width:38px;height:38px;object-fit:contain;
+  filter:drop-shadow(0 0 10px rgba(255,94,26,0.5));
+}
+.navbar-power .brand-text{
+  font-family:'Anton',sans-serif;
+  font-size:1.25rem;letter-spacing:1px;
+}
+.navbar-power .brand-text span{color:var(--ember);}
+.nav-links a{
+  color:var(--smoke);
+  font-size:0.86rem;
+  font-weight:600;
+  letter-spacing:0.6px;
+  text-transform:uppercase;
+  margin:0 16px;
+  position:relative;
+  transition:color .25s ease;
+}
+.nav-links a:hover{color:var(--bone);}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;
+  background:var(--ember);transition:width .25s ease;
+}
+.nav-links a:hover::after{width:100%;}
+
+.btn-play{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg, var(--ember), var(--ember-2));
+  color:#0a0a0a;
+  font-weight:800;
+  font-size:0.82rem;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  padding:11px 22px;
+  border-radius:999px;
+  box-shadow:0 8px 24px rgba(255,94,26,0.28);
+  transition:transform .25s ease, box-shadow .25s ease;
+  white-space:nowrap;
+}
+.btn-play:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(255,94,26,0.42);
+  color:#0a0a0a;
+}
+.btn-play svg{width:18px;height:18px;}
+
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--bone);
+  border:1px solid var(--steel);
+  padding:11px 22px;
+  border-radius:999px;
+  font-weight:700;font-size:0.82rem;
+  letter-spacing:0.5px;text-transform:uppercase;
+  transition:border-color .25s ease, background .25s ease;
+}
+.btn-ghost:hover{border-color:var(--ember);background:rgba(255,94,26,0.08);color:var(--bone);}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;
+  padding:170px 0 110px;
+  overflow:hidden;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--ember-2);
+  border:1px solid rgba(255,94,26,0.35);
+  background:rgba(255,94,26,0.07);
+  padding:7px 14px;border-radius:999px;
+  margin-bottom:26px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--ember);box-shadow:0 0 8px var(--ember);}
+
+.hero h1{
+  font-size:clamp(2.6rem, 6vw, 4.6rem);
+  color:var(--bone);
+  margin-bottom:22px;
+}
+.hero h1 .accent{color:var(--ember);}
+.hero p.lead-copy{
+  color:var(--smoke);
+  font-size:1.08rem;
+  line-height:1.7;
+  max-width:520px;
+  margin-bottom:34px;
+}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px;}
+
+.hero-stats{
+  display:flex;gap:34px;flex-wrap:wrap;
+}
+.hero-stats .stat b{
+  display:block;font-family:'JetBrains Mono',monospace;
+  font-size:1.5rem;color:var(--bone);font-weight:700;
+}
+.hero-stats .stat span{
+  font-size:0.72rem;color:var(--smoke-dim);letter-spacing:1px;text-transform:uppercase;
+}
+
+.hero-visual{
+  position:relative;
+  display:flex;justify-content:center;align-items:center;
+}
+.hero-visual img{
+  max-width:100%;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,0.6));
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-18px) rotate(0.4deg);}
+}
+.hero-ring{
+  position:absolute;
+  width:420px;height:420px;
+  border:1px dashed rgba(255,176,32,0.25);
+  border-radius:50%;
+  animation:spin 40s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ---------- Marquee ---------- */
+.marquee-wrap{
+  border-top:1px solid var(--steel);
+  border-bottom:1px solid var(--steel);
+  background:var(--charcoal);
+  padding:16px 0;
+  overflow:hidden;
+  white-space:nowrap;
+  position:relative;
+  transform:rotate(-1.2deg);
+  margin:0 -4vw 90px;
+}
+.marquee-track{
+  display:inline-flex;
+  animation:marquee 26s linear infinite;
+}
+.marquee-track span{
+  font-family:'Anton',sans-serif;
+  font-size:1.15rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--smoke-dim);
+  padding:0 26px;
+  display:inline-flex;align-items:center;gap:26px;
+}
+.marquee-track span i{color:var(--ember);font-style:normal;}
+@keyframes marquee{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+
+/* ---------- Section shared ---------- */
+.section{padding:70px 0;}
+.section-head{max-width:640px;margin-bottom:56px;}
+.section-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.74rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--ember-2);margin-bottom:14px;display:block;
+}
+.section-head h2{
+  font-size:clamp(2rem, 4vw, 3rem);
+  color:var(--bone);
+}
+.section-head p{
+  color:var(--smoke);font-size:1.02rem;margin-top:16px;line-height:1.7;
+}
+
+/* ---------- Feature rows ---------- */
+.feature-row{
+  display:flex;
+  gap:40px;
+  align-items:flex-start;
+  padding:36px 0;
+  border-top:1px solid rgba(255,255,255,0.07);
+}
+.feature-row:last-child{border-bottom:1px solid rgba(255,255,255,0.07);}
+.feature-icon{
+  flex:0 0 64px;
+  width:64px;height:64px;
+  border-radius:16px;
+  background:var(--charcoal-2);
+  border:1px solid var(--steel);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ember-2);
+}
+.feature-icon svg{width:28px;height:28px;}
+.feature-body h3{
+  font-family:'Inter',sans-serif;
+  text-transform:none;
+  font-weight:800;
+  font-size:1.32rem;
+  color:var(--bone);
+  letter-spacing:0;
+  margin-bottom:10px;
+}
+.feature-body p{
+  color:var(--smoke);
+  font-size:0.98rem;
+  line-height:1.72;
+  max-width:640px;
+  margin:0;
+}
+.feature-body .tag-line{
+  display:inline-block;margin-top:12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.74rem;color:var(--gold);
+  letter-spacing:0.5px;
+}
+
+/* ---------- Screenshot showcase ---------- */
+.showcase-wrap{
+  position:relative;
+  background:radial-gradient(ellipse at top, rgba(255,94,26,0.09), transparent 60%);
+  border-radius:28px;
+  border:1px solid var(--steel);
+  padding:60px 20px;
+  overflow:hidden;
+}
+.showcase-wrap img{
+  max-width:100%;
+  filter:drop-shadow(0 30px 50px rgba(0,0,0,0.55));
+}
+.callout-card{
+  background:var(--charcoal-2);
+  border:1px solid var(--steel);
+  border-radius:12px;
+  padding:16px 18px;
+  max-width:230px;
+}
+.callout-card .num{
+  font-family:'JetBrains Mono',monospace;
+  color:var(--ember-2);font-size:0.72rem;letter-spacing:1px;
+  text-transform:uppercase;display:block;margin-bottom:6px;
+}
+.callout-card h4{
+  font-size:1rem;font-weight:800;margin:0 0 6px;color:var(--bone);
+}
+.callout-card p{font-size:0.85rem;color:var(--smoke);margin:0;line-height:1.55;}
+
+/* ---------- Hall of Fame plaque (signature) ---------- */
+.plaque-section{
+  position:relative;
+  padding:100px 0;
+  background:
+    linear-gradient(180deg, rgba(9,9,11,0) 0%, rgba(20,21,25,0.9) 20%, rgba(20,21,25,0.9) 80%, rgba(9,9,11,0) 100%);
+}
+.plaque{
+  position:relative;
+  background:linear-gradient(155deg, #1c1d22 0%, #101114 100%);
+  border:1px solid var(--steel);
+  border-radius:22px;
+  padding:52px 40px;
+  box-shadow:0 40px 90px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04);
+  overflow:hidden;
+}
+.plaque::before{
+  content:"";
+  position:absolute;top:-2px;left:0;right:0;height:4px;
+  background:linear-gradient(90deg, var(--ember), var(--gold), var(--ember));
+}
+.plaque-emblem{
+  width:88px;height:88px;
+  border-radius:50%;
+  background:var(--black);
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 22px;
+  box-shadow:0 0 0 6px rgba(255,176,32,0.08), 0 0 30px rgba(255,176,32,0.25);
+}
+.plaque-emblem img{width:60px;height:60px;object-fit:contain;}
+.plaque-title{
+  text-align:center;color:var(--gold);
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.78rem;letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:6px;
+}
+.plaque-sub{
+  text-align:center;color:var(--bone);
+  font-family:'Anton',sans-serif;
+  font-size:clamp(1.6rem, 3vw, 2.3rem);
+  margin-bottom:44px;
+}
+.pr-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:26px;
+}
+.pr-item{
+  text-align:center;
+  border:1px solid var(--steel);
+  border-radius:14px;
+  padding:26px 14px;
+  background:rgba(255,255,255,0.015);
+}
+.pr-item .lift{
+  font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--smoke);margin-bottom:10px;font-weight:600;
+}
+.pr-item .value{
+  font-family:'JetBrains Mono',monospace;
+  font-size:2.1rem;font-weight:700;color:var(--bone);
+}
+.pr-item .value .unit{font-size:1rem;color:var(--ember-2);margin-left:4px;}
+.pr-item .delta{
+  margin-top:8px;font-size:0.76rem;color:var(--gold);
+  font-family:'JetBrains Mono',monospace;
+}
+@media (max-width:767px){
+  .pr-grid{grid-template-columns:1fr;}
+}
+
+/* ---------- Privacy / backup band ---------- */
+.privacy-card{
+  background:var(--charcoal-2);
+  border:1px solid var(--steel);
+  border-radius:20px;
+  padding:38px 32px;
+  height:100%;
+  position:relative;
+  overflow:hidden;
+  transition:border-color .3s ease, transform .3s ease;
+}
+.privacy-card:hover{border-color:rgba(255,94,26,0.4);transform:translateY(-4px);}
+.privacy-card .p-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:var(--black);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--gold);margin-bottom:22px;
+  border:1px solid var(--steel);
+}
+.privacy-card .p-icon svg{width:24px;height:24px;}
+.privacy-card h3{
+  font-family:'Inter',sans-serif;text-transform:none;letter-spacing:0;
+  font-size:1.2rem;font-weight:800;color:var(--bone);margin-bottom:12px;
+}
+.privacy-card p{color:var(--smoke);font-size:0.95rem;line-height:1.7;margin:0;}
+
+/* ---------- Final CTA ---------- */
+.final-cta{
+  position:relative;
+  text-align:center;
+  padding:110px 0 120px;
+  overflow:hidden;
+}
+.final-cta h2{
+  font-size:clamp(2.2rem, 5.5vw, 4rem);
+  color:var(--bone);
+  margin-bottom:20px;
+}
+.final-cta h2 .accent{color:var(--ember);}
+.final-cta p{color:var(--smoke);max-width:480px;margin:0 auto 36px;font-size:1.05rem;}
+
+/* ---------- Footer ---------- */
+footer{
+  border-top:1px solid var(--steel);
+  padding:44px 0 30px;
+  color:var(--smoke-dim);
+}
+footer .f-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+footer .f-brand img{width:30px;height:30px;}
+footer .f-brand span{font-family:'Anton',sans-serif;font-size:1.1rem;color:var(--bone);}
+footer p{font-size:0.85rem;line-height:1.7;max-width:340px;}
+footer .f-links a{
+  display:block;color:var(--smoke);font-size:0.88rem;margin-bottom:10px;
+  transition:color .2s ease;
+}
+footer .f-links a:hover{color:var(--ember-2);}
+footer .f-bottom{
+  border-top:1px solid var(--steel);
+  margin-top:34px;padding-top:22px;
+  font-size:0.78rem;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important;}
+}
+@media (max-width:991px){
+  .hero{padding-top:140px;text-align:center;}
+  .hero p.lead-copy{margin-left:auto;margin-right:auto;}
+  .hero-cta,.hero-stats{justify-content:center;}
+  .hero-visual{margin-top:50px;}
+  .feature-row{flex-direction:column;gap:18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="grain-bg"></div>
+
+<!-- NAV -->
+<nav class="navbar-power">
+  <div class="container-xl-custom d-flex align-items-center justify-content-between py-2">
+    <a href="#top" class="brand-mark">
+      <img src="logo.png" alt="PowerLog logo">
+      <span class="brand-text">POWER<span>LOG</span></span>
+    </a>
+    <div class="nav-links d-none d-lg-flex">
+      <a href="#features">Features</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#hall-of-fame">Hall of Fame</a>
+      <a href="#privacy">Privacy</a>
+    </div>
+    <a class="btn-play d-none d-sm-inline-flex" href="https://play.google.com/store/apps/details?id=com.madushan.powerlog&hl=en" target="_blank" rel="noopener">
+     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M389.6 298.3L168.9 77L449.7 238.2L389.6 298.3zM111.3 64C98.3 70.8 89.6 83.2 89.6 99.3L89.6 540.6C89.6 556.7 98.3 569.1 111.3 575.9L367.9 319.9L111.3 64zM536.5 289.6L477.6 255.5L411.9 320L477.6 384.5L537.7 350.4C555.7 336.1 555.7 303.9 536.5 289.6zM168.9 563L449.7 401.8L389.6 341.7L168.9 563z"/></svg>  Get it on Google Play
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="glow-ember" style="width:600px;height:600px;top:-200px;right:-200px;"></div>
+  <div class="container-xl-custom">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-up">
+        <span class="hero-eyebrow"><span class="dot"></span>Offline fitness tracker · No account required</span>
+        <h1>Train hard.<br>Track <span class="accent">everything.</span><br>Own your data.</h1>
+        <p class="lead-copy">PowerLog is the offline training companion for lifters and athletes who take their numbers seriously. No sign-ups, no cloud sync, no ads reading your workouts. Just your sets, your reps, and your progress — stored on your phone, for good.</p>
+        <div class="hero-cta">
+          <a class="btn-play" href="https://play.google.com/store/apps/details?id=com.madushan.powerlog&hl=en" target="_blank" rel="noopener">
+           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M389.6 298.3L168.9 77L449.7 238.2L389.6 298.3zM111.3 64C98.3 70.8 89.6 83.2 89.6 99.3L89.6 540.6C89.6 556.7 98.3 569.1 111.3 575.9L367.9 319.9L111.3 64zM536.5 289.6L477.6 255.5L411.9 320L477.6 384.5L537.7 350.4C555.7 336.1 555.7 303.9 536.5 289.6zM168.9 563L449.7 401.8L389.6 341.7L168.9 563z"/></svg>  Get it on Google Play
+    Get it on Google Play
+          </a>
+          <a class="btn-ghost" href="#features">See what it tracks</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><b>100%</b><span>Offline storage</span></div>
+          <div class="stat"><b>0</b><span>Accounts needed</span></div>
+          <div class="stat"><b>&infin;</b><span>Personal records logged</span></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-visual" data-aos="fade-left" data-aos-delay="150">
+          <div class="hero-ring"></div>
+          <img src="screens.png" alt="PowerLog app screens showing routines and workout logs">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>
+      <span><i>&#9679;</i> Progressive overload</span>
+      <span><i>&#9679;</i> Zero cloud sync</span>
+      <span><i>&#9679;</i> Personal records</span>
+      <span><i>&#9679;</i> Body measurements</span>
+      <span><i>&#9679;</i> Daily protine and water intake</span>
+      <span><i>&#9679;</i> Free workout mode</span>
+    </span>
+    <span aria-hidden="true">
+      <span><i>&#9679;</i> Progressive overload</span>
+      <span><i>&#9679;</i> Zero cloud sync</span>
+      <span><i>&#9679;</i> Personal records</span>
+      <span><i>&#9679;</i> Body measurements</span>
+      <span><i>&#9679;</i> Daily protine and water intake</span>
+      <span><i>&#9679;</i> Free workout mode</span>
+    </span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container-xl-custom">
+    <div class="section-head" data-aos="fade-up">
+      <span class="section-tag">What's inside</span>
+      <h2>Built for the mid-set decision.</h2>
+      <p>Every screen in PowerLog is designed to get out of your way while you're under the bar, then hand you the full picture the moment you rack it.</p>
+    </div>
+
+    <div class="feature-row" data-aos="fade-up">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 12h2M20 12h2M6 12h12M4 8v8M20 8v8M7 6v12M17 6v12"/></svg>
+      </div>
+      <div class="feature-body">
+        <h3>Workout &amp; routine management</h3>
+        <p>Build fully customized routines and assign exercises to match your training split. Log every set, rep, and weight through an interface built for speed — designed to keep up with you mid-set, not slow you down. In the mood to freestyle? Drop straight into Free Workout Mode and log a session with no routine set up first.</p>
+        <span class="tag-line">Progressive overload, tracked automatically</span>
+      </div>
+    </div>
+
+    <div class="feature-row" data-aos="fade-up">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+      </div>
+      <div class="feature-body">
+        <h3>Health &amp; body tracking</h3>
+        <p>Go beyond the barbell. Log body weight, body fat percentage, and measurements for your chest, arms, waist, and thighs. Update only the metrics you care about — PowerLog's smart validation carries the rest over for you. See your BMI on a live gauge and stay on top of hydration with the built-in water intake tracker.</p>
+        <span class="tag-line">One log, every metric that matters</span>
+      </div>
+    </div>
+
+    <div class="feature-row" data-aos="fade-up">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z"/><path d="M17 5h3a3 3 0 01-3 4M7 5H4a3 3 0 003 4"/></svg>
+      </div>
+      <div class="feature-body">
+        <h3>Hall of Fame &amp; analytics</h3>
+        <p>PowerLog automatically detects and records your all-time heaviest lift for every exercise — no manual entry required. Explore trend charts across 7 days, 1 month, and 6 months, plus spline area charts that show how each muscle group has grown over time.</p>
+        <span class="tag-line">Your PRs, catalogued the moment you hit them</span>
+      </div>
+    </div>
+
+    <div class="feature-row" data-aos="fade-up">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l3 3v17H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+      </div>
+      <div class="feature-body">
+        <h3>Built-in notepad</h3>
+        <p>Keep workout notes, diet tweaks, supplement schedules, and personal reminders in one place — right next to your training data, so nothing gets lost across five different apps.</p>
+        <span class="tag-line">Everything you need, one app</span>
+      </div>
+    </div>
+
+    <div class="feature-row" data-aos="fade-up">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/></svg>
+      </div>
+      <div class="feature-body">
+        <h3>100% offline &amp; privacy-first</h3>
+        <p>Your data never leaves your device. PowerLog stores everything locally with SQLite — no accounts, no sign-ups, no data harvesting. What you log stays yours, completely.</p>
+        <span class="tag-line">No servers to trust. None involved.</span>
+      </div>
+    </div>
+
+    <div class="feature-row" data-aos="fade-up">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0115-6.7M21 12a9 9 0 01-15 6.7"/><path d="M3 3v6h6M21 21v-6h-6"/></svg>
+      </div>
+      <div class="feature-body">
+        <h3>Backup &amp; restore</h3>
+        <p>Switching phones doesn't mean starting over. Export your entire database to your Downloads folder whenever you want, then restore it on a new device and pick up exactly where you left off — zero data loss.</p>
+        <span class="tag-line">Your training history, portable</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="section" id="screenshots">
+  <div class="container-xl-custom">
+    <div class="section-head mx-auto text-center" data-aos="fade-up">
+      <span class="section-tag">Inside the app</span>
+      <h2>A dashboard that speaks gym.</h2>
+      <p>Dark by default, orange where it counts. Every screen is built to be read at a glance between sets.</p>
+    </div>
+
+    <div class="showcase-wrap">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-4 d-flex flex-column gap-4 order-2 order-lg-1">
+          <div class="callout-card" data-aos="fade-right">
+            <span class="num">Home</span>
+            <h4>Ready to crush your goals</h4>
+            <p>Your dashboard greets you by name and puts Workouts, Free Routine, Hall of Fame, and Notes one tap away.</p>
+          </div>
+          <div class="callout-card" data-aos="fade-right" data-aos-delay="120">
+            <span class="num">My Routines</span>
+            <h4>Built for your split</h4>
+            <p>Search, start, or edit any routine — from Home Workout to Chest Workout — in a couple of taps.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 text-center order-1 order-lg-2" data-aos="zoom-in">
+          <img src="screens.png" alt="PowerLog Home, My Routines, and Workout Logs screens" style="max-height:560px;">
+        </div>
+
+        <div class="col-lg-4 d-flex flex-column gap-4 order-3">
+          <div class="callout-card ms-lg-auto" data-aos="fade-left">
+            <span class="num">Workout Logs</span>
+            <h4>Every session, timestamped</h4>
+            <p>Scroll back through past sessions with duration, date, and routine at a glance.</p>
+          </div>
+          <div class="callout-card ms-lg-auto" data-aos="fade-left" data-aos-delay="120">
+            <span class="num">Free Routine</span>
+            <h4>No plan? No problem.</h4>
+            <p>Jump straight into logging without setting up a routine first — for the days you just want to lift.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HALL OF FAME PLAQUE (signature) -->
+<!-- <section class="plaque-section" id="hall-of-fame">
+  <div class="container-xl-custom">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="plaque" data-aos="fade-up">
+          <div class="plaque-emblem">
+            <img src="logo.png" alt="PowerLog lion emblem">
+          </div>
+          <span class="plaque-title">Hall of Fame</span>
+          <h3 class="plaque-sub">Your heaviest lifts, on record.</h3>
+          <div class="pr-grid">
+            <div class="pr-item">
+              <div class="lift">Bench Press</div>
+              <div class="value"><span class="counter" data-target="140">0</span><span class="unit">kg</span></div>
+              <div class="delta">All-time PR</div>
+            </div>
+            <div class="pr-item">
+              <div class="lift">Back Squat</div>
+              <div class="value"><span class="counter" data-target="180">0</span><span class="unit">kg</span></div>
+              <div class="delta">All-time PR</div>
+            </div>
+            <div class="pr-item">
+              <div class="lift">Deadlift</div>
+              <div class="value"><span class="counter" data-target="220">0</span><span class="unit">kg</span></div>
+              <div class="delta">All-time PR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- PRIVACY / BACKUP -->
+<section class="section" id="privacy">
+  <div class="container-xl-custom">
+    <div class="section-head" data-aos="fade-up">
+      <span class="section-tag">The fine print, made simple</span>
+      <h2>No cloud. No excuses.</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6" data-aos="fade-up">
+        <div class="privacy-card">
+          <div class="p-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+          </div>
+          <h3>Everything stays on your phone</h3>
+          <p>PowerLog stores your training and body data locally with SQLite. There's no account to create and nothing syncing to a server — your numbers belong to you, not a database somewhere else.</p>
+        </div>
+      </div>
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="privacy-card">
+          <div class="p-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
+          </div>
+          <h3>Export a backup, anytime</h3>
+          <p>Save your full database as a backup file to your Downloads folder whenever you like. Getting a new phone? Restore it and every set, rep, and PR comes with you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="glow-ember" style="width:700px;height:700px;bottom:-300px;left:50%;transform:translateX(-50%);"></div>
+  <div class="container-xl-custom" style="position:relative;z-index:1;">
+    <h2 data-aos="fade-up">Your gains deserve<br>to be <span class="accent">tracked.</span></h2>
+    <p data-aos="fade-up" data-aos-delay="100">Beginner or years into your program — PowerLog gives you the tools to stay consistent, stay motivated, and keep pushing. Download it free.</p>
+    <a class="btn-play" data-aos="fade-up" data-aos-delay="180" href="https://play.google.com/store/apps/details?id=com.madushan.powerlog&hl=en" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 3l11 9-11 9V3z" fill="currentColor"/><path d="M14 12l3.5-3 3.6 2c.8.5.8 1.5 0 2l-3.6 2-3.5-3z" fill="currentColor" opacity=".7"/></svg>
+      Get it on Google Play
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container-xl-custom">
+    <div class="row">
+      <div class="col-md-5 mb-4 mb-md-0">
+        <div class="f-brand">
+          <img src="logo.png" alt="PowerLog logo">
+          <span>POWERLOG</span>
+        </div>
+        <p>The offline fitness companion for lifters and athletes who are serious about their gains. No accounts. No cloud. No excuses.</p>
+      </div>
+      <div class="col-md-3 col-6 mb-4 mb-md-0 f-links">
+        <a href="#features">Features</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#hall-of-fame">Hall of Fame</a>
+      </div>
+      <div class="col-md-4 col-6 f-links">
+        <a href="https://play.google.com/store/apps/details?id=com.madushan.powerlog&hl=en" target="_blank" rel="noopener">Download on Google Play</a>
+        <a href="#privacy">Privacy &amp; backup</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>&copy; <span id="year"></span> PowerLog. Built for lifters.</span>
+      <span>Track offline. Progress anywhere.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  $(document).ready(function(){
+    AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
+    $('#year').text(new Date().getFullYear());
+
+    // Navbar shadow on scroll
+    $(window).on('scroll', function(){
+      if ($(window).scrollTop() > 20) {
+        $('.navbar-power').css('background', 'rgba(9,9,11,0.92)');
+      } else {
+        $('.navbar-power').css('background', 'rgba(9,9,11,0.75)');
+      }
+    });
+
+    // Animated PR counters, triggered once when the plaque enters the viewport
+    var countersStarted = false;
+    function animateCounters(){
+      if (countersStarted) return;
+      var $plaque = $('.plaque');
+      if ($plaque.length === 0) return;
+      var top = $plaque.offset().top;
+      var winTop = $(window).scrollTop();
+      var winHeight = $(window).height();
+      if (winTop + winHeight * 0.85 > top) {
+        countersStarted = true;
+        $('.counter').each(function(){
+          var $this = $(this);
+          var target = parseInt($this.data('target'), 10);
+          $({ val: 0 }).animate({ val: target }, {
+            duration: 1400,
+            easing: 'swing',
+            step: function(now){
+              $this.text(Math.floor(now));
+            },
+            complete: function(){
+              $this.text(target);
+            }
+          });
+        });
+      }
+    }
+    $(window).on('scroll', animateCounters);
+    animateCounters();
+
+    // Smooth-scroll for in-page anchors
+    $('a[href^="#"]').on('click', function(e){
+      var target = $(this.getAttribute('href'));
+      if (target.length) {
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: target.offset().top - 70 }, 600);
+      }
+    });
+  });
+</script>
+</body>
+</html>
