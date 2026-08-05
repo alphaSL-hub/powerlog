@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PowerLog — Routine Builder</title>
+
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/createrotine.css">
+</head>
+<body>
+
+<div class="wrap">
+  <header class="topbar">
+    <div class="brand">
+      <h1>  <img height="50px" width="50px" src="logo.png" alt="PowerLog logo">POWER<span>LOG</span></h1>
+      <p>chalk it up, then take it to the floor</p>
+       <a class="btn-play d-none d-sm-inline-flex" href="https://play.google.com/store/apps/details?id=com.madushan.powerlog&hl=en" target="_blank" rel="noopener">
+     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M389.6 298.3L168.9 77L449.7 238.2L389.6 298.3zM111.3 64C98.3 70.8 89.6 83.2 89.6 99.3L89.6 540.6C89.6 556.7 98.3 569.1 111.3 575.9L367.9 319.9L111.3 64zM536.5 289.6L477.6 255.5L411.9 320L477.6 384.5L537.7 350.4C555.7 336.1 555.7 303.9 536.5 289.6zM168.9 563L449.7 401.8L389.6 341.7L168.9 563z"/></svg>  Get it on Google Play
+    </a>
+    </div>
+    <div class="day-badge" id="dateBadge">—</div>
+  </header>
+
+  <div class="row g-4">
+    <!-- LIBRARY -->
+    <div class="col-12 col-lg-5">
+      <h2 class="section-title">Exercise Board</h2>
+      <span class="section-sub">tap + to chalk it onto your sheet</span>
+
+      <div class="search-row">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search exercises…">
+        <select id="bodyPartFilter" class="form-select">
+          <option value="">All areas</option>
+        </select>
+      </div>
+
+      <div class="filters" id="typeFilters"></div>
+      
+      <div class="custom-add">
+        <span class="toggle-link" id="toggleCustom">+ add an exercise that's not on the board</span>
+        <div class="custom-form" id="customForm">
+          <div class="row">
+            <div class="col-12 col-md-12"><label>Exercise name</label>
+              <input type="text" id="customName" class="form-control form-control-sm" placeholder="e.g. Lat Pulldown"></div>
+            <div class="col-6 col-md-6"><label>Body part</label>
+              <input type="text" id="customBodyPart" class="form-control form-control-sm" placeholder="e.g. Back"></div>
+            <div class="col-6 col-md-6"><label>Type</label>
+              <input type="text" id="customType" class="form-control form-control-sm" placeholder="e.g. Strength"></div>
+          </div>
+          <div class="form-check mt-2 mb-3">
+            <input class="form-check-input" type="checkbox" id="customIsTime">
+            <label class="form-check-label" for="customIsTime" style="font-size:.85rem; color:var(--chalk-dim); margin-top:2px;">Time-based (seconds instead of reps)</label>
+          </div>
+          <button class="btn-chalk" id="addCustomBtn" type="button">Add to sheet</button>
+        </div>
+      </div>
+      
+      <div class="lib-scroll" id="libList"></div>
+    </div>
+
+    <!-- BUILDER -->
+    <div class="col-12 col-lg-7">
+      <div class="board-easel">
+        <div class="clip"></div>
+        <div class="paper">
+          <input type="text" id="routineNameInput" class="routine-name-input" placeholder="Untitled Routine" value="Untitled Routine">
+          <div class="routine-meta-line" id="metaLine">0 EXERCISES · DRAG TO REORDER</div>
+
+          <div class="tabs-row" id="tabsRow"></div>
+
+          <div id="routineList"></div>
+          <div class="empty-routine" id="emptyRoutine">this sheet is blank — pick something off the board</div>
+
+          <div class="paper-footer">
+            <div>
+              <span class="count-note" id="footerNote">ready when you are</span>
+              <button class="exportall-link" id="exportAllBtn" type="button">export ALL saved routines as one file</button>
+            </div>
+            <button class="stamp-btn" id="exportBtn" type="button">EXPORT<small>.pwlo</small></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chalk-toast" id="toast">
+  <svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>
+  <span id="toastMsg">Exported</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<!-- Crucial for mobile touch drag & drop support -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
+<script>
+$(function(){
+
+  /* ================= WORKOUT LIBRARY DATA ================= */
+  const WORKOUTS = [
+    {"name":"Bench Press","type":"Strength","description":"A chest-focused movement using a barbell or dumbbells on a flat bench.","bodyPart":"Chest","isTimeBased":false},
+    {"name":"Pull-Up","type":"Strength","description":"A vertical pulling movement using bodyweight to target the lats and arms.","bodyPart":"Back","isTimeBased":false},
+    {"name":"Russian Twist","type":"Core","description":"A rotational core movement done seated, targeting obliques.","bodyPart":"Core","isTimeBased":true},
+    {"name":"High Knees","type":"Cardio","description":"A fast-paced cardio move lifting knees high in place.","bodyPart":"Legs","isTimeBased":true},
+    {"name":"Box Jump","type":"Plyometric","description":"A jump onto a sturdy box or platform to build explosiveness.","bodyPart":"Legs","isTimeBased":false},
+    {"name":"Shoulder Press","type":"Strength","description":"A pressing motion overhead with dumbbells or barbell targeting shoulders.","bodyPart":"Shoulders","isTimeBased":false},
+    {"name":"Leg Press","type":"Strength","description":"Machine-based lower-body pushing movement.","bodyPart":"Legs","isTimeBased":false},
+    {"name":"Wall Sit","type":"Strength","description":"Isometric leg and core exercise where you hold a seated position against a wall.","bodyPart":"Legs","isTimeBased":true},
+    {"name":"Side Plank","type":"Core","description":"A plank variation targeting obliques while balanced on one arm.","bodyPart":"Core","isTimeBased":true},
+    {"name":"Hip Thrust","type":"Strength","description":"A glute-focused movement done with bodyweight or weights while leaning against a bench.","bodyPart":"Glutes","isTimeBased":false},
+    {"name":"Skater Hops","type":"Cardio","description":"A lateral plyometric exercise mimicking speed skater movement.","bodyPart":"Legs","isTimeBased":true},
+    {"name":"Jump Squat","type":"Plyometric","description":"A squat with an explosive jump for building power and endurance.","bodyPart":"Legs","isTimeBased":false},
+    {"name":"Bear Crawl","type":"Full Body","description":"A crawling movement on hands and feet that activates full body.","bodyPart":"Full Body","isTimeBased":true},
+    {"name":"Flutter Kicks","type":"Core","description":"A rapid leg movement while lying down targeting lower abs.","bodyPart":"Core","isTimeBased":true},
+    {"name":"Step-Up","type":"Strength","description":"A unilateral leg movement stepping onto an elevated surface.","bodyPart":"Legs","isTimeBased":false},
+    {"name":"Cable Row","type":"Strength","description":"A horizontal pulling movement using a cable machine.","bodyPart":"Back","isTimeBased":false},
+    {"name":"Cable Lateral Raise","type":"Strength","description":"Shoulder isolation movement using cable resistance.","bodyPart":"Shoulders","isTimeBased":false},
+    {"name":"Crunch","type":"Core","description":"A basic abdominal contraction movement for upper abs.","bodyPart":"Core","isTimeBased":false},
+    {"name":"Hollow Hold","type":"Core","description":"A static core hold position with arms and legs off ground.","bodyPart":"Core","isTimeBased":true},
+    {"name":"Treadmill Run","type":"Cardio","description":"Running on a treadmill for endurance and heart health.","bodyPart":"Legs","isTimeBased":true},
+    {"name":"Deadlift","type":"Strength","description":"A compound movement lifting a barbell from the ground to hip level.","bodyPart":"Full Body","isTimeBased":false},
+    {"name":"Plank","type":"Core","description":"An isometric hold engaging core, back, and shoulders.","bodyPart":"Core","isTimeBased":true},
+    {"name":"Burpee","type":"Full Body","description":"A full-body exercise combining squat, push-up, and jump.","bodyPart":"Full Body","isTimeBased":true},
+    {"name":"Mountain Climbers","type":"Cardio","description":"A dynamic exercise mimicking climbing while in a plank position.","bodyPart":"Core","isTimeBased":true},
+    {"name":"Bicep Curl","type":"Strength","description":"An isolation movement for the biceps using dumbbells or cables.","bodyPart":"Arms","isTimeBased":false}
+  ];
+
+  /* ================= STATE ================= */
+  let routines = [ { name:"Untitled Routine", workouts:[] } ];
+  let activeIndex = 0;
+  let activeType = "All";
+  let uidCounter = 1;
+
+  const el = {
+    lib: $('#libList'),
+    search: $('#searchInput'),
+    bodyPartFilter: $('#bodyPartFilter'),
+    typeFilters: $('#typeFilters'),
+    routineList: $('#routineList'),
+    routineNameInput: $('#routineNameInput'),
+    metaLine: $('#metaLine'),
+    tabsRow: $('#tabsRow'),
+    emptyRoutine: $('#emptyRoutine'),
+    footerNote: $('#footerNote'),
+  };
+
+  /* ================= DATE BADGE ================= */
+  $('#dateBadge').text(new Date().toLocaleDateString(undefined,{weekday:'short', month:'short', day:'numeric'}).toUpperCase());
+
+  /* ================= CHALK DUST ================= */
+  for(let i=0;i<12;i++){
+    const size = 2 + Math.random()*3;
+    $('<div class="dust"></div>').css({
+      width: size, height: size,
+      top: (Math.random()*100)+'vh',
+      left: (Math.random()*100)+'vw',
+      animationDuration: (7+Math.random()*6)+'s',
+      animationDelay: (Math.random()*5)+'s'
+    }).appendTo('body');
+  }
+
+  /* ================= FILTER UI ================= */
+  const types = ["All", ...Array.from(new Set(WORKOUTS.map(w=>w.type)))];
+  types.forEach(t=>{
+    $('<button class="chip"></button>').text(t).attr('data-type',t)
+      .toggleClass('active', t==="All")
+      .appendTo(el.typeFilters);
+  });
+  
+  const bodyParts = Array.from(new Set(WORKOUTS.map(w=>w.bodyPart))).sort();
+  bodyParts.forEach(bp=>{
+    el.bodyPartFilter.append(`<option value="${bp}">${bp}</option>`);
+  });
+
+  el.typeFilters.on('click', '.chip', function(){
+    activeType = $(this).data('type');
+    el.typeFilters.find('.chip').removeClass('active');
+    $(this).addClass('active');
+    renderLibrary();
+  });
+  el.search.on('input', renderLibrary);
+  el.bodyPartFilter.on('change', renderLibrary);
+
+  function renderLibrary(){
+    const q = el.search.val().trim().toLowerCase();
+    const bp = el.bodyPartFilter.val();
+    el.lib.empty();
+    const filtered = WORKOUTS.filter(w=>{
+      if(activeType!=="All" && w.type!==activeType) return false;
+      if(bp && w.bodyPart!==bp) return false;
+      if(q && !w.name.toLowerCase().includes(q)) return false;
+      return true;
+    });
+    if(filtered.length===0){
+      el.lib.append('<div class="empty-lib">nothing matches — try clearing a filter</div>');
+      return;
+    }
+    filtered.forEach(w=>{
+      const $card = $(`
+        <div class="ex-card">
+          <div class="ex-body">
+            <div class="ex-tag">${w.bodyPart} · ${w.type}${w.isTimeBased ? ' · TIMED' : ''}</div>
+            <div class="ex-name">${escapeHtml(w.name)}</div>
+            <p class="ex-desc">${escapeHtml(w.description)}</p>
+          </div>
+          <button class="ex-add-btn" type="button" title="Add to sheet">+</button>
+        </div>
+      `);
+      $card.find('.ex-add-btn').on('click', ()=> addWorkoutToRoutine(w));
+      el.lib.append($card);
+    });
+  }
+
+  function escapeHtml(s){
+    return $('<div>').text(s).html();
+  }
+
+  function currentRoutine(){ return routines[activeIndex]; }
+
+  function addWorkoutToRoutine(w){
+    currentRoutine().workouts.push({
+      uid: uidCounter++,
+      name: w.name,
+      bodyPart: w.bodyPart,
+      type: w.type,
+      isTime: !!w.isTimeBased,
+      sets: 3,
+      reps: w.isTimeBased ? null : 10,
+      time: w.isTimeBased ? 30 : null
+    });
+    renderRoutine(true);
+    showToast("Added " + w.name); // Immediate feedback for mobile users
+  }
+
+  $('#toggleCustom').on('click', function(){ $('#customForm').toggleClass('show'); });
+  $('#addCustomBtn').on('click', function(){
+    const name = $('#customName').val().trim();
+    if(!name){ $('#customName').focus(); return; }
+    const bodyPart = $('#customBodyPart').val().trim() || 'Custom';
+    const type = $('#customType').val().trim() || 'Custom';
+    const isTime = $('#customIsTime').is(':checked');
+    currentRoutine().workouts.push({
+      uid: uidCounter++,
+      name, bodyPart, type, isTime,
+      sets: 3,
+      reps: isTime ? null : 10,
+      time: isTime ? 30 : null
+    });
+    $('#customName').val(''); $('#customBodyPart').val(''); $('#customType').val(''); $('#customIsTime').prop('checked', false);
+    renderRoutine(true);
+    showToast("Added " + name);
+  });
+
+  function renderTabs(){
+    el.tabsRow.empty();
+    routines.forEach((r,i)=>{
+      const $tab = $(`<div class="rtab ${i===activeIndex?'active':''}"><span class="rtab-label"></span><span class="rtab-x">&times;</span></div>`);
+      $tab.find('.rtab-label').text(r.name || 'Untitled');
+      $tab.on('click', function(e){
+        if($(e.target).hasClass('rtab-x')) return;
+        activeIndex = i;
+        el.routineNameInput.val(r.name);
+        renderRoutine();
+      });
+      $tab.find('.rtab-x').on('click', function(){
+        if(routines.length===1){
+          routines[0] = { name:"Untitled Routine", workouts:[] };
+        } else {
+          routines.splice(i,1);
+          if(activeIndex>=routines.length) activeIndex = routines.length-1;
+        }
+        el.routineNameInput.val(currentRoutine().name);
+        renderRoutine();
+      });
+      el.tabsRow.append($tab);
+    });
+    const $newTab = $('<div class="rtab rtab-new">+ new sheet</div>');
+    $newTab.on('click', function(){
+      routines.push({ name:"Untitled Routine "+(routines.length+1), workouts:[] });
+      activeIndex = routines.length-1;
+      el.routineNameInput.val(currentRoutine().name);
+      renderRoutine();
+      
+      // Auto-scroll tabs to end on mobile
+      el.tabsRow.animate({ scrollLeft: el.tabsRow[0].scrollWidth }, 300);
+    });
+    el.tabsRow.append($newTab);
+  }
+
+  function renderRoutine(justAdded){
+    renderTabs();
+    const r = currentRoutine();
+    el.routineList.empty();
+    el.emptyRoutine.toggle(r.workouts.length===0);
+
+    r.workouts.forEach((w, idx)=>{
+      const $row = $(`
+        <div class="routine-row" data-uid="${w.uid}">
+          <span class="drag-handle">⋮⋮</span>
+          <span class="row-no">${String(idx+1).padStart(2,'0')}</span>
+          <div class="row-info">
+            <div class="row-name">${escapeHtml(w.name)}</div>
+            <div class="row-meta">${escapeHtml(w.bodyPart)} · ${escapeHtml(w.type)}</div>
+          </div>
+          <div class="row-fields">
+            <div class="field"><label>SETS</label><input type="number" min="1" class="f-sets" value="${w.sets}"></div>
+            ${ w.isTime
+              ? `<div class="field"><label>SEC</label><input type="number" min="1" class="f-time" value="${w.time}"></div>`
+              : `<div class="field"><label>REPS</label><input type="number" min="1" class="f-reps" value="${w.reps}"></div>`
+            }
+            <button class="row-remove" type="button" title="Remove">&times;</button>
+          </div>
+        </div>
+      `);
+
+      $row.find('.f-sets').on('input', function(){ w.sets = parseInt($(this).val())||1; updateFooter(); });
+      $row.find('.f-reps').on('input', function(){ w.reps = parseInt($(this).val())||1; });
+      $row.find('.f-time').on('input', function(){ w.time = parseInt($(this).val())||1; });
+      $row.find('.row-remove').on('click', function(){
+        $row.addClass('removing');
+        setTimeout(()=>{
+          r.workouts = r.workouts.filter(x=>x.uid!==w.uid);
+          renderRoutine();
+        }, 260);
+      });
+
+      el.routineList.append($row);
+    });
+
+    if($.fn.sortable){
+      el.routineList.sortable({
+        handle:'.drag-handle',
+        placeholder:'ui-sortable-placeholder',
+        axis:'y',
+        tolerance: 'pointer', // Better for mobile drag
+        update: function(){
+          const order = el.routineList.children('.routine-row').map(function(){ return $(this).data('uid'); }).get();
+          r.workouts.sort((a,b)=> order.indexOf(a.uid) - order.indexOf(b.uid));
+          renderRoutine();
+        }
+      });
+    }
+
+    updateFooter();
+  }
+
+  function updateFooter(){
+    const r = currentRoutine();
+    const n = r.workouts.length;
+    el.metaLine.text(`${n} EXERCISE${n===1?'':'S'} · DRAG ⋮⋮ TO REORDER`);
+    const totalSets = r.workouts.reduce((s,w)=>s+w.sets,0);
+    $('#footerNote').text(n===0 ? "ready when you are" : `${totalSets} total sets chalked up`);
+  }
+
+  el.routineNameInput.on('input', function(){
+    currentRoutine().name = $(this).val();
+    renderTabs();
+  });
+
+  function sanitizeFilename(name){
+    const cleaned = (name||'').trim().replace(/[^a-z0-9\- ]/gi,'').replace(/\s+/g,'_');
+    return cleaned || 'routine';
+  }
+
+  function routineToExportObj(r){
+    return {
+      name: r.name || 'Untitled Routine',
+      workouts: r.workouts.map((w,i)=>({
+        name: w.name,
+        sets: w.sets,
+        reps: w.isTime ? null : w.reps,
+        isTime: w.isTime,
+        time: w.isTime ? w.time : null,
+        list_no: i+1
+      }))
+    };
+  }
+
+  function buildExport(routineList){
+    return {
+      version: 1,
+      app: "PowerLog",
+      type: "routines_export",
+      exported_at: new Date().toISOString(),
+      routines: routineList
+    };
+  }
+
+  function downloadJson(obj, filename){
+    const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function showToast(msg){
+    $('#toastMsg').text(msg);
+    const $t = $('#toast');
+    $t.removeClass('show');
+    void $t[0].offsetWidth;
+    $t.addClass('show');
+    clearTimeout($t.data('timer'));
+    $t.data('timer', setTimeout(()=>$t.removeClass('show'), 2400));
+  }
+
+  $('#exportBtn').on('click', function(){
+    const r = currentRoutine();
+    if(r.workouts.length===0){ showToast("add an exercise first"); return; }
+    $(this).addClass('stamped');
+    setTimeout(()=>$(this).removeClass('stamped'), 400);
+    const exp = buildExport([routineToExportObj(r)]);
+    downloadJson(exp, sanitizeFilename(r.name)+'.pwlo');
+    showToast(sanitizeFilename(r.name)+'.pwlo exported');
+  });
+
+  $('#exportAllBtn').on('click', function(){
+    const nonEmpty = routines.filter(r=>r.workouts.length>0);
+    if(nonEmpty.length===0){ showToast("nothing to export yet"); return; }
+    const exp = buildExport(nonEmpty.map(routineToExportObj));
+    downloadJson(exp, 'routines_export.pwlo');
+    showToast('all routines exported');
+  });
+
+  /* ================= INIT ================= */
+  renderLibrary();
+  renderRoutine();
+
+});
+</script>
+</body>
+</html>
