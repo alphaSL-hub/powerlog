@@ -445,3 +445,27 @@ footer .f-bottom{
   .hero-visual{margin-top:50px;}
   .feature-row{flex-direction:column;gap:18px;}
 }
+.crtbg{
+    background-image: url(/img/ambitions.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+ 
+}
+
+.crtbg:after {
+  content: "";
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0; 
+  background: hsla(0, 0%, 0%, 0.264);
+  pointer-events: none;
+}
+
+/* .higligter{
+    background-color: #1f1f1f;
+   
+}
+.higligter2{
+    background-color: var(--ember-2);
+    color: #09090b;
+   
+} */
