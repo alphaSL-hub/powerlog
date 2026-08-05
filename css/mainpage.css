@@ -446,7 +446,7 @@ footer .f-bottom{
   .feature-row{flex-direction:column;gap:18px;}
 }
 .crtbg{
-    background-image: url(/img/ambitions.jpg);
+    background-image: url(img/ambitions.jpg);
     background-repeat: no-repeat;
     background-size: cover;
  
