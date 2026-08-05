@@ -395,10 +395,11 @@ $(function(){
   }
 
   function downloadJson(obj, filename){
-    const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+    const safeFilename = filename.endsWith('.pwlo') ? filename : `${filename}.pwlo`;
+    const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/octet-stream'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = filename;
+    a.href = url; a.download = safeFilename;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
