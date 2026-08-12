@@ -2,14 +2,14 @@
 "data":[
 
 {
-    "name":"test",
-    "add_date":"test",
+    "name":"Thor's Workout",
+    "add_date":"",
     "source_urls":[
-        "http://www.boady.lk"
+        "https://www.garagegymreviews.com/chris-hemsworth-workout-routine"
     ],
     "coverimage":"image/logo.png",
-    "description":"lorem text..",
-    "workout_file":"pwl/hello.pwlo"
+    "description":"Chris Hemsworth’s godlike physique.",
+    "workout_file":"pwl/thor.pwlo"
 }
 
 
