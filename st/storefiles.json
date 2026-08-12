@@ -12,7 +12,16 @@
     "workout_file":"pwl/thor.pwlo"
 }
 
-
+,{
+    "name":"Reacher's Workout",
+    "add_date":"",
+    "source_urls":[
+        ""
+    ],
+    "coverimage":"image/reacher.png",
+    "description":"This PowerLog routine export contains a 4-day Reacher-inspired workout program focused on functional strength, bodyweight training, explosiveness, endurance, and core stability. It includes upper body training on Monday, legs and core on Tuesday, explosive conditioning on Thursday, and running/athletic conditioning on Saturday. The routine combines exercises such as push-ups, pull-ups, squats, burpees, box jumps, bear crawls, and a 5K run for a balanced approach to strength and fitness.",
+      "workout_file":"pwl/reacher.pwlo"
+}
 
 
 ]
