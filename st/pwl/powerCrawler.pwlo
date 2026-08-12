@@ -1,0 +1,273 @@
+{
+  "version": 1,
+  "app": "PowerLog",
+  "type": "routines_export",
+  "exported_at": "2026-08-12T08:37:00.000Z",
+  "routines": [
+    {
+      "name": " Day 1 - Power Crawler",
+      "workouts": [
+        {
+          "name": "Dumbbell Bench Press",
+          "sets": 3,
+          "reps": 3,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Incline Dumbbell Flys",
+          "sets": 3,
+          "reps": 4,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Decline Push Up",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Seated Dumbbell Tricep Extension",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        }
+      ]
+    },
+    {
+      "name": "Day 2 - Power Crawler",
+      "workouts": [
+        {
+          "name": "Dumbbell Squat",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Dumbbell Bulgarian Split Squat",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Dumbbell Stiff Leg Deadlift",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Single Leg Hip Thrust with Dumbbell",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 5
+        }
+      ]
+    },
+    {
+      "name": "Day 3 - Power Crawler",
+      "workouts": [
+        {
+          "name": "Dumbbell Bench Press",
+          "sets": 5,
+          "reps": 3,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Dumbbell Flys",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Standing Dumbbell Front Raise",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Lying Dumbbell Extension",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        }
+      ]
+    },
+    {
+      "name": "Day 4 - Power Crawler",
+      "workouts": [
+        {
+          "name": "Dumbbell Pullover",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "One Arm Dumbbell Row",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Bent-Over Lateral Raise",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        },
+        {
+          "name": "Seated Lateral Raise",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 5
+        },
+        {
+          "name": "Alternating Standing Dumbbell Curl",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 6
+        },
+        {
+          "name": "Concentration Curl",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 7
+        },
+        {
+          "name": "Triceps Kickback",
+          "sets": 3,
+          "reps": 6,
+          "isTime": false,
+          "time": null,
+          "list_no": 8
+        },
+        {
+          "name": "Push Up",
+          "sets": 1,
+          "reps": null,
+          "isTime": false,
+          "time": null,
+          "list_no": 9
+        }
+      ]
+    },
+    {
+      "name": "Day 5 - Power Crawler",
+      "workouts": [
+        {
+          "name": "Wide Stance Goblet Squat",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Walking Lunges",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Seated Dumbbell Calf Raise",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Side Bends",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        },
+        {
+          "name": "Bent Over Dumbbell Row",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 5
+        },
+        {
+          "name": "Arnold Press",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 6
+        },
+        {
+          "name": "Hammer Curl",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 7
+        },
+        {
+          "name": "Dumbbell Overhead Extension",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 8
+        }
+      ]
+    }
+  ]
+}

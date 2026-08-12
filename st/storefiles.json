@@ -1,29 +1,34 @@
 {
-"data":[
-
-{
-    "name":"Thor's Workout",
-    "add_date":"",
-    "source_urls":[
-        "https://www.garagegymreviews.com/chris-hemsworth-workout-routine"
-    ],
-    "coverimage":"image/thor.png",
-    "description":"Godlike physique. his routine is designed primarily for muscle hypertrophy and strength, while Day 6 adds conditioning and athletic fitness. It is a demanding program because of its high training volume and six consecutive training days.",
-    "workout_file":"pwl/thor.pwlo"
-}
-
-,{
-    "name":"Reacher's Workout",
-    "add_date":"",
-    "source_urls":[
-        ""
-    ],
-    "coverimage":"image/reacher.png",
-    "description":"This PowerLog routine export contains a 4-day Reacher-inspired workout program focused on functional strength, bodyweight training, explosiveness, endurance, and core stability. It includes upper body training on Monday, legs and core on Tuesday, explosive conditioning on Thursday, and running/athletic conditioning on Saturday. The routine combines exercises such as push-ups, pull-ups, squats, burpees, box jumps, bear crawls, and a 5K run for a balanced approach to strength and fitness.",
-      "workout_file":"pwl/reacher.pwlo"
-}
-
-
-]
-    
+    "data": [
+        {
+            "name": "Thor's Workout",
+            "add_date": "",
+            "source_urls": [
+                "https://www.garagegymreviews.com/chris-hemsworth-workout-routine"
+            ],
+            "coverimage": "image/thor.png",
+            "description": "Godlike physique. his routine is designed primarily for muscle hypertrophy and strength, while Day 6 adds conditioning and athletic fitness. It is a demanding program because of its high training volume and six consecutive training days.",
+            "workout_file": "pwl/thor.pwlo"
+        },
+        {
+            "name": "Power Crawler",
+            "add_date": "",
+            "source_urls": [
+                "https://www.muscleandstrength.com/workouts/dumbbell-only-bench-press-workout"
+            ],
+            "coverimage": "image/powerCrawler.jpg",
+            "description": "A 5-day dumbbell-focused strength and hypertrophy program designed to build powerful upper and lower body development. The routine combines heavy low-rep pressing and rowing with targeted exercises for the chest, shoulders, back, arms, legs, and core. With a mix of compound movements and isolation work, it emphasizes strength, muscle development, and functional athletic power.",
+            "workout_file": "pwl/powerCrawler.pwlo"
+        },
+        {
+            "name": "Reacher's Workout",
+            "add_date": "",
+            "source_urls": [
+                ""
+            ],
+            "coverimage": "image/reacher.png",
+            "description": "This PowerLog routine export contains a 4-day Reacher-inspired workout program focused on functional strength, bodyweight training, explosiveness, endurance, and core stability. It includes upper body training on Monday, legs and core on Tuesday, explosive conditioning on Thursday, and running/athletic conditioning on Saturday. The routine combines exercises such as push-ups, pull-ups, squats, burpees, box jumps, bear crawls, and a 5K run for a balanced approach to strength and fitness.",
+            "workout_file": "pwl/reacher.pwlo"
+        }
+    ]
 }
