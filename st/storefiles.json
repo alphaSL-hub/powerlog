@@ -1,6 +1,6 @@
 {
     "data": [
-         {
+        {
             "name": "Power Crawler",
             "add_date": "",
             "source_urls": [
@@ -9,6 +9,13 @@
             "coverimage": "image/powerCrawler.jpeg",
             "description": "A 5-day dumbbell-focused strength and hypertrophy program designed to build powerful upper and lower body development. The routine combines heavy low-rep pressing and rowing with targeted exercises for the chest, shoulders, back, arms, legs, and core. With a mix of compound movements and isolation work, it emphasizes strength, muscle development, and functional athletic power.",
             "workout_file": "pwl/powerCrawler.pwlo"
+        },
+         {
+            "name": "🏛️ THE OLYMPIAN — Greek God Physique",
+            "add_date": "",
+            "coverimage": "image/greek.avif",
+            "description": "A 6-day Greek God-inspired physique program built around the classic aesthetic: broad shoulders, wide back, full chest, strong arms, powerful legs, and a tight athletic core.The routine combines compound strength movements, hypertrophy work, bodyweight exercises, and athletic conditioning. The emphasis on pull-ups, rows, presses, lateral raises, squats, and core training is designed to create a V-taper and balanced muscular proportions rather than simply maximizing size.",
+            "workout_file": "pwl/greekGod.pwlo"
         },
         {
             "name": "Thor's Workout",
@@ -20,7 +27,6 @@
             "description": "Godlike physique. his routine is designed primarily for muscle hypertrophy and strength, while Day 6 adds conditioning and athletic fitness. It is a demanding program because of its high training volume and six consecutive training days.",
             "workout_file": "pwl/thor.pwlo"
         },
-       
         {
             "name": "Reacher's Workout",
             "add_date": "",
@@ -31,5 +37,6 @@
             "description": "This PowerLog routine export contains a 4-day Reacher-inspired workout program focused on functional strength, bodyweight training, explosiveness, endurance, and core stability. It includes upper body training on Monday, legs and core on Tuesday, explosive conditioning on Thursday, and running/athletic conditioning on Saturday. The routine combines exercises such as push-ups, pull-ups, squats, burpees, box jumps, bear crawls, and a 5K run for a balanced approach to strength and fitness.",
             "workout_file": "pwl/reacher.pwlo"
         }
+       
     ]
 }

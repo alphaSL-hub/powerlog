@@ -1,0 +1,350 @@
+{
+  "version": 1,
+  "app": "PowerLog",
+  "type": "routines_export",
+  "exported_at": "2026-08-17T04:23:00.000Z",
+  "routines": [
+    {
+      "name": "Day 1- greek god",
+      "workouts": [
+        {
+          "name": "Incline Dumbbell Bench Press",
+          "sets": 4,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Flat Dumbbell Bench Press",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Dumbbell Fly",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Weighted Dips",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        },
+        {
+          "name": "Overhead Dumbbell Triceps Extension",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 5
+        },
+        {
+          "name": "Triceps Push-Ups",
+          "sets": 2,
+          "reps": 15,
+          "isTime": false,
+          "time": null,
+          "list_no": 6
+        }
+      ]
+    },
+    {
+      "name": "Day 2- greek god",
+      "workouts": [
+        {
+          "name": "Pull-Ups",
+          "sets": 4,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Barbell Bent-Over Row",
+          "sets": 4,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "One Arm Dumbbell Row",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Lat Pulldown",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        },
+        {
+          "name": "Dumbbell Shrug",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 5
+        },
+        {
+          "name": "Barbell Biceps Curl",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 6
+        },
+        {
+          "name": "Hammer Curl",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 7
+        }
+      ]
+    },
+    {
+      "name": "Day 3- greek god",
+      "workouts": [
+        {
+          "name": "Barbell Back Squat",
+          "sets": 4,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Romanian Deadlift",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Walking Lunges",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Leg Curl",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        },
+        {
+          "name": "Standing Calf Raise",
+          "sets": 4,
+          "reps": 15,
+          "isTime": false,
+          "time": null,
+          "list_no": 5
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "sets": 3,
+          "reps": 15,
+          "isTime": false,
+          "time": null,
+          "list_no": 6
+        },
+        {
+          "name": "Plank",
+          "sets": 3,
+          "reps": null,
+          "isTime": true,
+          "time": 60,
+          "list_no": 7
+        }
+      ]
+    },
+    {
+      "name": "Day 4- greek god",
+      "workouts": [
+        {
+          "name": "Overhead Barbell Press",
+          "sets": 4,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": 4,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Arnold Press",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Dumbbell Rear Delt Fly",
+          "sets": 3,
+          "reps": 15,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        },
+        {
+          "name": "Face Pull",
+          "sets": 3,
+          "reps": 15,
+          "isTime": false,
+          "time": null,
+          "list_no": 5
+        },
+        {
+          "name": "Barbell Shrug",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 6
+        }
+      ]
+    },
+    {
+      "name": "Day 5- greek god",
+      "workouts": [
+        {
+          "name": "Incline Push-Ups",
+          "sets": 3,
+          "reps": 15,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Pull-Ups",
+          "sets": 3,
+          "reps": 8,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Dumbbell Bench Press",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Dumbbell Row",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "sets": 3,
+          "reps": 15,
+          "isTime": false,
+          "time": null,
+          "list_no": 5
+        },
+        {
+          "name": "Dumbbell Hammer Curl",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 6
+        },
+        {
+          "name": "Dumbbell Skull Crusher",
+          "sets": 3,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 7
+        }
+      ]
+    },
+    {
+      "name": "Day 6- greek god",
+      "workouts": [
+        {
+          "name": "Jump Squats",
+          "sets": 4,
+          "reps": 12,
+          "isTime": false,
+          "time": null,
+          "list_no": 1
+        },
+        {
+          "name": "Burpees",
+          "sets": 3,
+          "reps": 10,
+          "isTime": false,
+          "time": null,
+          "list_no": 2
+        },
+        {
+          "name": "Push-Ups",
+          "sets": 3,
+          "reps": 20,
+          "isTime": false,
+          "time": null,
+          "list_no": 3
+        },
+        {
+          "name": "Bear Crawls",
+          "sets": 3,
+          "reps": 20,
+          "isTime": false,
+          "time": null,
+          "list_no": 4
+        },
+        {
+          "name": "Hanging Knee Raises",
+          "sets": 3,
+          "reps": 15,
+          "isTime": false,
+          "time": null,
+          "list_no": 5
+        },
+        {
+          "name": "Plank",
+          "sets": 3,
+          "reps": null,
+          "isTime": true,
+          "time": 60,
+          "list_no": 6
+        }
+      ]
+    }
+  ]
+}
