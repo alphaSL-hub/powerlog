@@ -117,23 +117,35 @@
   .lib-scroll::-webkit-scrollbar-thumb { background: var(--board-line); border-radius: 4px; }
 
   .ex-card {
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; gap: 12px;
     border: 1px dashed var(--board-line); border-radius: 10px;
-    padding: 12px; margin-bottom: 10px;
+    padding: 10px 12px; margin-bottom: 10px;
     background: rgba(255,255,255,.015);
     transition: border-color .15s ease, transform .15s ease, background .15s ease;
   }
   .ex-card:active { transform: scale(0.98); }
+  .ex-thumb-wrap {
+    width: 58px; height: 58px; flex-shrink: 0;
+    border-radius: 8px; background: #ffffff;
+    border: 1px solid var(--board-line); overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  .ex-thumb {
+    width: 100%; height: 100%; object-fit: contain; padding: 2px;
+    transition: transform .2s ease;
+  }
+  .ex-card:hover .ex-thumb { transform: scale(1.08); }
   .ex-card .ex-body { flex: 1; min-width: 0; }
   .ex-tag {
     font-family: 'IBM Plex Mono', monospace; font-size: .65rem; letter-spacing: .08em;
     color: var(--green); text-transform: uppercase;
   }
-  .ex-name { font-size: 1rem; font-weight: 600; margin: 2px 0 3px; color: var(--chalk); }
-  .ex-desc { font-size: .8rem; color: var(--chalk-dim); margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ex-name { font-size: 0.98rem; font-weight: 600; margin: 2px 0 3px; color: var(--chalk); }
+  .ex-desc { font-size: .78rem; color: var(--chalk-dim); margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   
   .ex-add-btn {
-    flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%; /* Larger tap target */
+    flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; /* Larger tap target */
     background: transparent; border: 1.5px solid var(--yellow); color: var(--yellow);
     font-size: 1.4rem; line-height: 1; display: flex; align-items: center; justify-content: center;
     cursor: pointer; transition: all .15s ease; touch-action: manipulation;
@@ -226,6 +238,17 @@
   .drag-handle { cursor: grab; color: var(--ink-dim); font-size: 1.1rem; letter-spacing: -2px; user-select: none; padding: 4px; touch-action: none; }
   .drag-handle:active { cursor: grabbing; }
   
+  .row-thumb-wrap {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border-radius: 6px; background: #ffffff;
+    border: 1px solid var(--ink-line); overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .row-thumb {
+    width: 100%; height: 100%; object-fit: contain; padding: 2px;
+  }
+
   .row-info { flex: 1; min-width: 120px; }
   .row-name { font-weight: 600; font-size: .95rem; line-height: 1.2; margin-bottom: 2px; }
   .row-meta { font-size: .65rem; color: var(--ink-dim); font-family: 'IBM Plex Mono', monospace; letter-spacing: .04em; }

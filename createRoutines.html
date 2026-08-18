@@ -100,38 +100,72 @@
 <!-- Crucial for mobile touch drag & drop support -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="workouts/exercises.js"></script>
 
 <script>
 $(function(){
 
-  /* ================= WORKOUT LIBRARY DATA ================= */
-  const WORKOUTS = [
-    {"name":"Bench Press","type":"Strength","description":"A chest-focused movement using a barbell or dumbbells on a flat bench.","bodyPart":"Chest","isTimeBased":false},
-    {"name":"Pull-Up","type":"Strength","description":"A vertical pulling movement using bodyweight to target the lats and arms.","bodyPart":"Back","isTimeBased":false},
-    {"name":"Russian Twist","type":"Core","description":"A rotational core movement done seated, targeting obliques.","bodyPart":"Core","isTimeBased":true},
-    {"name":"High Knees","type":"Cardio","description":"A fast-paced cardio move lifting knees high in place.","bodyPart":"Legs","isTimeBased":true},
-    {"name":"Box Jump","type":"Plyometric","description":"A jump onto a sturdy box or platform to build explosiveness.","bodyPart":"Legs","isTimeBased":false},
-    {"name":"Shoulder Press","type":"Strength","description":"A pressing motion overhead with dumbbells or barbell targeting shoulders.","bodyPart":"Shoulders","isTimeBased":false},
-    {"name":"Leg Press","type":"Strength","description":"Machine-based lower-body pushing movement.","bodyPart":"Legs","isTimeBased":false},
-    {"name":"Wall Sit","type":"Strength","description":"Isometric leg and core exercise where you hold a seated position against a wall.","bodyPart":"Legs","isTimeBased":true},
-    {"name":"Side Plank","type":"Core","description":"A plank variation targeting obliques while balanced on one arm.","bodyPart":"Core","isTimeBased":true},
-    {"name":"Hip Thrust","type":"Strength","description":"A glute-focused movement done with bodyweight or weights while leaning against a bench.","bodyPart":"Glutes","isTimeBased":false},
-    {"name":"Skater Hops","type":"Cardio","description":"A lateral plyometric exercise mimicking speed skater movement.","bodyPart":"Legs","isTimeBased":true},
-    {"name":"Jump Squat","type":"Plyometric","description":"A squat with an explosive jump for building power and endurance.","bodyPart":"Legs","isTimeBased":false},
-    {"name":"Bear Crawl","type":"Full Body","description":"A crawling movement on hands and feet that activates full body.","bodyPart":"Full Body","isTimeBased":true},
-    {"name":"Flutter Kicks","type":"Core","description":"A rapid leg movement while lying down targeting lower abs.","bodyPart":"Core","isTimeBased":true},
-    {"name":"Step-Up","type":"Strength","description":"A unilateral leg movement stepping onto an elevated surface.","bodyPart":"Legs","isTimeBased":false},
-    {"name":"Cable Row","type":"Strength","description":"A horizontal pulling movement using a cable machine.","bodyPart":"Back","isTimeBased":false},
-    {"name":"Cable Lateral Raise","type":"Strength","description":"Shoulder isolation movement using cable resistance.","bodyPart":"Shoulders","isTimeBased":false},
-    {"name":"Crunch","type":"Core","description":"A basic abdominal contraction movement for upper abs.","bodyPart":"Core","isTimeBased":false},
-    {"name":"Hollow Hold","type":"Core","description":"A static core hold position with arms and legs off ground.","bodyPart":"Core","isTimeBased":true},
-    {"name":"Treadmill Run","type":"Cardio","description":"Running on a treadmill for endurance and heart health.","bodyPart":"Legs","isTimeBased":true},
-    {"name":"Deadlift","type":"Strength","description":"A compound movement lifting a barbell from the ground to hip level.","bodyPart":"Full Body","isTimeBased":false},
-    {"name":"Plank","type":"Core","description":"An isometric hold engaging core, back, and shoulders.","bodyPart":"Core","isTimeBased":true},
-    {"name":"Burpee","type":"Full Body","description":"A full-body exercise combining squat, push-up, and jump.","bodyPart":"Full Body","isTimeBased":true},
-    {"name":"Mountain Climbers","type":"Cardio","description":"A dynamic exercise mimicking climbing while in a plank position.","bodyPart":"Core","isTimeBased":true},
-    {"name":"Bicep Curl","type":"Strength","description":"An isolation movement for the biceps using dumbbells or cables.","bodyPart":"Arms","isTimeBased":false}
-  ];
+  /* ================= HELPERS & DATA PROCESSING ================= */
+  function formatLabel(str){
+    if(!str) return '';
+    return str.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+  }
+
+  function processRawExercise(ex){
+    const categoryName = formatLabel(ex.category || 'Strength');
+    const bodyPartName = formatLabel(ex.body_part || 'Full Body');
+    
+    // Check if exercise is time-based
+    const isTime = ex.category === 'cardio' || 
+                   ex.category === 'stretching' || 
+                   ex.id.includes('plank') || 
+                   ex.id.includes('hold') || 
+                   ex.id.includes('sit') || 
+                   ex.id.includes('hang') || 
+                   (ex.tags && (ex.tags.includes('stretching') || ex.tags.includes('cardio') || ex.tags.includes('conditioning')));
+
+    const startRel = ex.images && ex.images.flat && (ex.images.flat.start || ex.images.flat.main);
+    const peakRel = ex.images && ex.images.flat && ex.images.flat.peak;
+    const mainRel = ex.images && ex.images.flat && ex.images.flat.main;
+
+    const imageStart = startRel ? ('workouts/' + startRel) : null;
+    const imagePeak = peakRel ? ('workouts/' + peakRel) : null;
+    const imageMain = mainRel ? ('workouts/' + mainRel) : imageStart;
+    const thumbnail = imageStart || imagePeak || imageMain || null;
+
+    return {
+      id: ex.id,
+      name: ex.name_en || ex.name || 'Exercise',
+      category: categoryName,
+      type: categoryName,
+      bodyPart: bodyPartName,
+      description: ex.description_en || ex.description || '',
+      isTimeBased: !!isTime,
+      imageStart,
+      imagePeak,
+      imageMain,
+      thumbnail
+    };
+  }
+
+  let WORKOUTS = [];
+  if(window.EXERCISES_DATA && Array.isArray(window.EXERCISES_DATA)){
+    WORKOUTS = window.EXERCISES_DATA.map(processRawExercise);
+  }
+
+  // Also asynchronously fetch workouts/exercises.json if window.EXERCISES_DATA was not present
+  if(WORKOUTS.length === 0){
+    fetch('workouts/exercises.json')
+      .then(r => r.json())
+      .then(data => {
+        if(data && data.exercises){
+          WORKOUTS = data.exercises.map(processRawExercise);
+          initFilters();
+          renderLibrary();
+        }
+      })
+      .catch(e => console.warn('Could not load workouts/exercises.json:', e));
+  }
 
   /* ================= STATE ================= */
   let routines = [ { name:"Untitled Routine", workouts:[] } ];
@@ -168,17 +202,23 @@ $(function(){
   }
 
   /* ================= FILTER UI ================= */
-  const types = ["All", ...Array.from(new Set(WORKOUTS.map(w=>w.type)))];
-  types.forEach(t=>{
-    $('<button class="chip"></button>').text(t).attr('data-type',t)
-      .toggleClass('active', t==="All")
-      .appendTo(el.typeFilters);
-  });
-  
-  const bodyParts = Array.from(new Set(WORKOUTS.map(w=>w.bodyPart))).sort();
-  bodyParts.forEach(bp=>{
-    el.bodyPartFilter.append(`<option value="${bp}">${bp}</option>`);
-  });
+  function initFilters(){
+    el.typeFilters.empty();
+    const types = ["All", ...Array.from(new Set(WORKOUTS.map(w=>w.category))).filter(Boolean).sort()];
+    types.forEach(t=>{
+      $('<button class="chip"></button>').text(t).attr('data-type',t)
+        .toggleClass('active', t===activeType)
+        .appendTo(el.typeFilters);
+    });
+    
+    el.bodyPartFilter.find('option:not(:first)').remove();
+    const bodyParts = Array.from(new Set(WORKOUTS.map(w=>w.bodyPart))).filter(Boolean).sort();
+    bodyParts.forEach(bp=>{
+      el.bodyPartFilter.append(`<option value="${bp}">${bp}</option>`);
+    });
+  }
+
+  initFilters();
 
   el.typeFilters.on('click', '.chip', function(){
     activeType = $(this).data('type');
@@ -194,9 +234,9 @@ $(function(){
     const bp = el.bodyPartFilter.val();
     el.lib.empty();
     const filtered = WORKOUTS.filter(w=>{
-      if(activeType!=="All" && w.type!==activeType) return false;
+      if(activeType!=="All" && w.category!==activeType) return false;
       if(bp && w.bodyPart!==bp) return false;
-      if(q && !w.name.toLowerCase().includes(q)) return false;
+      if(q && !w.name.toLowerCase().includes(q) && !w.description.toLowerCase().includes(q)) return false;
       return true;
     });
     if(filtered.length===0){
@@ -204,23 +244,40 @@ $(function(){
       return;
     }
     filtered.forEach(w=>{
+      const hasPeak = !!w.imagePeak;
       const $card = $(`
-        <div class="ex-card">
+        <div class="ex-card" data-id="${escapeHtml(w.id)}">
+          ${w.thumbnail ? `
+            <div class="ex-thumb-wrap">
+              <img class="ex-thumb" src="${w.thumbnail}" data-start="${w.imageStart || w.thumbnail}" data-peak="${w.imagePeak || ''}" alt="${escapeHtml(w.name)}" loading="lazy">
+            </div>
+          ` : ''}
           <div class="ex-body">
-            <div class="ex-tag">${w.bodyPart} · ${w.type}${w.isTimeBased ? ' · TIMED' : ''}</div>
+            <div class="ex-tag">${escapeHtml(w.bodyPart)} · ${escapeHtml(w.category)}${w.isTimeBased ? ' · TIMED' : ''}</div>
             <div class="ex-name">${escapeHtml(w.name)}</div>
             <p class="ex-desc">${escapeHtml(w.description)}</p>
           </div>
           <button class="ex-add-btn" type="button" title="Add to sheet">+</button>
         </div>
       `);
+
+      // Dynamic animation on card hover
+      if(hasPeak){
+        const $img = $card.find('.ex-thumb');
+        $card.on('mouseenter', function(){
+          $img.attr('src', w.imagePeak);
+        }).on('mouseleave', function(){
+          $img.attr('src', w.imageStart || w.thumbnail);
+        });
+      }
+
       $card.find('.ex-add-btn').on('click', ()=> addWorkoutToRoutine(w));
       el.lib.append($card);
     });
   }
 
   function escapeHtml(s){
-    return $('<div>').text(s).html();
+    return $('<div>').text(s||'').html();
   }
 
   function currentRoutine(){ return routines[activeIndex]; }
@@ -228,9 +285,11 @@ $(function(){
   function addWorkoutToRoutine(w){
     currentRoutine().workouts.push({
       uid: uidCounter++,
+      id: w.id || (w.name ? w.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') : 'workout'),
       name: w.name,
       bodyPart: w.bodyPart,
-      type: w.type,
+      type: w.category || w.type || 'Strength',
+      thumbnail: w.thumbnail || null,
       isTime: !!w.isTimeBased,
       sets: 3,
       reps: w.isTimeBased ? null : 10,
@@ -247,9 +306,15 @@ $(function(){
     const bodyPart = $('#customBodyPart').val().trim() || 'Custom';
     const type = $('#customType').val().trim() || 'Custom';
     const isTime = $('#customIsTime').is(':checked');
+    const slugId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `custom-${Date.now()}`;
     currentRoutine().workouts.push({
       uid: uidCounter++,
-      name, bodyPart, type, isTime,
+      id: `custom-${slugId}`,
+      name, 
+      bodyPart, 
+      type, 
+      isTime,
+      thumbnail: null,
       sets: 3,
       reps: isTime ? null : 10,
       time: isTime ? 30 : null
@@ -306,6 +371,11 @@ $(function(){
         <div class="routine-row" data-uid="${w.uid}">
           <span class="drag-handle">⋮⋮</span>
           <span class="row-no">${String(idx+1).padStart(2,'0')}</span>
+          ${w.thumbnail ? `
+            <div class="row-thumb-wrap">
+              <img class="row-thumb" src="${w.thumbnail}" alt="" loading="lazy">
+            </div>
+          ` : ''}
           <div class="row-info">
             <div class="row-name">${escapeHtml(w.name)}</div>
             <div class="row-meta">${escapeHtml(w.bodyPart)} · ${escapeHtml(w.type)}</div>
@@ -374,6 +444,7 @@ $(function(){
     return {
       name: r.name || 'Untitled Routine',
       workouts: r.workouts.map((w,i)=>({
+        id: w.id || (w.name ? w.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') : `workout-${i+1}`),
         name: w.name,
         sets: w.sets,
         reps: w.isTime ? null : w.reps,
