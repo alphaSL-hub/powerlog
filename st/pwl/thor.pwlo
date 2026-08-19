@@ -8,6 +8,7 @@
       "name": "Thor's Day 01- Back",
       "workouts": [
         {
+          "id": "barbell-row",
           "name": "Barbell Bent-Over Row",
           "sets": 8,
           "reps": 12,
@@ -16,6 +17,7 @@
           "list_no": 1
         },
         {
+          "id": "pull-up",
           "name": "Pull-ups",
           "sets": 5,
           "reps": 20,
@@ -24,6 +26,7 @@
           "list_no": 2
         },
         {
+          "id": "push-up",
           "name": "Push-ups",
           "sets": 5,
           "reps": 20,
@@ -32,6 +35,7 @@
           "list_no": 3
         },
         {
+          "id": "wide-grip-seated-cable-row",
           "name": "Seated Row",
           "sets": 4,
           "reps": 12,
@@ -40,6 +44,7 @@
           "list_no": 4
         },
         {
+          "id": "single-arm-db-row",
           "name": "Dumbbell Row",
           "sets": 4,
           "reps": 12,
@@ -48,6 +53,7 @@
           "list_no": 5
         },
         {
+          "id": "swiss-ball-hyperextension",
           "name": "Swiss Ball Hyperextension",
           "sets": 4,
           "reps": 25,
@@ -61,6 +67,7 @@
       "name": "Thor's Day 02- Chest",
       "workouts": [
         {
+          "id": "bench-press",
           "name": "Barbell Bench Press",
           "sets": 8,
           "reps": 12,
@@ -69,6 +76,7 @@
           "list_no": 1
         },
         {
+          "id": "incline-db-press",
           "name": "Incline Dumbbell Bench Press",
           "sets": 4,
           "reps": 12,
@@ -77,6 +85,7 @@
           "list_no": 2
         },
         {
+          "id": "chest-press-machine",
           "name": "Chest Press",
           "sets": 4,
           "reps": 15,
@@ -85,6 +94,7 @@
           "list_no": 3
         },
         {
+          "id": "dips",
           "name": "Weighted Dip",
           "sets": 4,
           "reps": 10,
@@ -93,6 +103,7 @@
           "list_no": 4
         },
         {
+          "id": "cable-fly",
           "name": "Cable Fly",
           "sets": 4,
           "reps": 12,
@@ -106,6 +117,7 @@
       "name": "Thor's Day 03- Legs",
       "workouts": [
         {
+          "id": "squat",
           "name": "Barbell Back Squat",
           "sets": 7,
           "reps": 10,
@@ -114,6 +126,7 @@
           "list_no": 1
         },
         {
+          "id": "leg-press",
           "name": "Leg Press",
           "sets": 1,
           "reps": null,
@@ -122,6 +135,7 @@
           "list_no": 2
         },
         {
+          "id": "walking-lunge",
           "name": "Walking Lunge",
           "sets": 4,
           "reps": 20,
@@ -130,6 +144,7 @@
           "list_no": 3
         },
         {
+          "id": "unilateral-leg-curl",
           "name": "Unilateral Leg Curl",
           "sets": 3,
           "reps": 20,
@@ -138,6 +153,7 @@
           "list_no": 4
         },
         {
+          "id": "barbell-calf-raise",
           "name": "Standing Calf Raise",
           "sets": 3,
           "reps": 20,
@@ -151,6 +167,7 @@
       "name": "Thor's Day 04- Shoulders",
       "workouts": [
         {
+          "id": "ohp",
           "name": "Military Press",
           "sets": 7,
           "reps": 10,
@@ -159,6 +176,7 @@
           "list_no": 1
         },
         {
+          "id": "arnold-press",
           "name": "Arnold Press",
           "sets": 4,
           "reps": 12,
@@ -167,6 +185,7 @@
           "list_no": 2
         },
         {
+          "id": "shrug",
           "name": "Barbell Shrug",
           "sets": 4,
           "reps": 12,
@@ -175,6 +194,7 @@
           "list_no": 3
         },
         {
+          "id": "lateral-raise",
           "name": "Dumbbell Lateral Raise",
           "sets": 3,
           "reps": 15,
@@ -183,6 +203,7 @@
           "list_no": 4
         },
         {
+          "id": "dumbbell-front-raise",
           "name": "Dumbbell Front Raise",
           "sets": 3,
           "reps": 15,
@@ -191,6 +212,7 @@
           "list_no": 5
         },
         {
+          "id": "rear-delt-fly",
           "name": "Dumbbell Rear Delt Fly",
           "sets": 3,
           "reps": 15,
@@ -204,6 +226,7 @@
       "name": "Thor's Day 05 - Arms",
       "workouts": [
         {
+          "id": "barbell-curl",
           "name": "Barbell Biceps Curl",
           "sets": 3,
           "reps": 10,
@@ -212,6 +235,7 @@
           "list_no": 1
         },
         {
+          "id": "skull-crusher",
           "name": "Skull Crushers",
           "sets": 3,
           "reps": 10,
@@ -220,6 +244,7 @@
           "list_no": 2
         },
         {
+          "id": "preacher-curl",
           "name": "EZ Bar Preacher Curl",
           "sets": 3,
           "reps": 10,
@@ -228,6 +253,7 @@
           "list_no": 3
         },
         {
+          "id": "db-skull-crusher",
           "name": "Dumbbell Lying Triceps Extension",
           "sets": 3,
           "reps": 10,
@@ -236,6 +262,7 @@
           "list_no": 4
         },
         {
+          "id": "hammer-curl",
           "name": "Dumbbell Hammer Curl",
           "sets": 3,
           "reps": 12,
@@ -244,6 +271,7 @@
           "list_no": 5
         },
         {
+          "id": "triceps-pushdown",
           "name": "Triceps Pushdown",
           "sets": 3,
           "reps": 12,
@@ -252,6 +280,7 @@
           "list_no": 6
         },
         {
+          "id": "barbell-wrist-curl",
           "name": "Barbell Wrist Curl",
           "sets": 3,
           "reps": 20,
@@ -260,6 +289,7 @@
           "list_no": 7
         },
         {
+          "id": "barbell-reverse-wrist-curl",
           "name": "Barbell Reverse Wrist Curl",
           "sets": 3,
           "reps": 20,
@@ -273,6 +303,7 @@
       "name": "Thor's Day 6-full_body_circuit",
       "workouts": [
         {
+          "id": "chin-ups",
           "name": "Chin-ups",
           "sets": 3,
           "reps": 15,
@@ -281,6 +312,7 @@
           "list_no": 1
         },
         {
+          "id": "sit-ups",
           "name": "Sit-ups",
           "sets": 3,
           "reps": 15,
@@ -289,6 +321,7 @@
           "list_no": 2
         },
         {
+          "id": "push-up",
           "name": "Push-ups",
           "sets": 3,
           "reps": 15,
@@ -297,6 +330,7 @@
           "list_no": 3
         },
         {
+          "id": "burpees",
           "name": "Burpees",
           "sets": 5,
           "reps": 10,
@@ -305,6 +339,7 @@
           "list_no": 4
         },
         {
+          "id": "walking-lunge",
           "name": "Walking Lunges",
           "sets": 4,
           "reps": 20,
@@ -313,6 +348,7 @@
           "list_no": 5
         },
         {
+          "id": null,
           "name": "Bear Crawls",
           "sets": 4,
           "reps": 20,
@@ -321,6 +357,7 @@
           "list_no": 6
         },
         {
+          "id": "box-jump",
           "name": "Box Jumps",
           "sets": 3,
           "reps": 10,
@@ -329,6 +366,7 @@
           "list_no": 7
         },
         {
+          "id": "plank",
           "name": "Plank",
           "sets": 3,
           "reps": null,
@@ -337,6 +375,7 @@
           "list_no": 8
         },
         {
+          "id": "hollow-hold",
           "name": "Hollow Hold",
           "sets": 3,
           "reps": null,

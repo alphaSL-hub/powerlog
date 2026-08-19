@@ -8,6 +8,7 @@
       "name": "Day 1- greek god",
       "workouts": [
         {
+          "id": "db-bench-press",
           "name": "Incline Dumbbell Bench Press",
           "sets": 4,
           "reps": 8,
@@ -16,6 +17,7 @@
           "list_no": 1
         },
         {
+          "id": "db-bench-press",
           "name": "Flat Dumbbell Bench Press",
           "sets": 3,
           "reps": 10,
@@ -24,6 +26,7 @@
           "list_no": 2
         },
         {
+          "id": "db-fly",
           "name": "Dumbbell Fly",
           "sets": 3,
           "reps": 12,
@@ -32,6 +35,7 @@
           "list_no": 3
         },
         {
+          "id": "dips",
           "name": "Weighted Dips",
           "sets": 3,
           "reps": 8,
@@ -40,6 +44,7 @@
           "list_no": 4
         },
         {
+          "id": "overhead-tricep-extension",
           "name": "Overhead Dumbbell Triceps Extension",
           "sets": 3,
           "reps": 10,
@@ -48,6 +53,7 @@
           "list_no": 5
         },
         {
+          "id": "push-up",
           "name": "Triceps Push-Ups",
           "sets": 2,
           "reps": 15,
@@ -61,6 +67,7 @@
       "name": "Day 2- greek god",
       "workouts": [
         {
+          "id": "pull-up",
           "name": "Pull-Ups",
           "sets": 4,
           "reps": 8,
@@ -69,6 +76,7 @@
           "list_no": 1
         },
         {
+          "id": "barbell-row",
           "name": "Barbell Bent-Over Row",
           "sets": 4,
           "reps": 8,
@@ -77,6 +85,7 @@
           "list_no": 2
         },
         {
+          "id": "single-arm-db-row",
           "name": "One Arm Dumbbell Row",
           "sets": 3,
           "reps": 10,
@@ -85,6 +94,7 @@
           "list_no": 3
         },
         {
+          "id": "lat-pulldown",
           "name": "Lat Pulldown",
           "sets": 3,
           "reps": 10,
@@ -93,6 +103,7 @@
           "list_no": 4
         },
         {
+          "id": "db-shrug",
           "name": "Dumbbell Shrug",
           "sets": 3,
           "reps": 12,
@@ -101,6 +112,7 @@
           "list_no": 5
         },
         {
+          "id": "barbell-curl",
           "name": "Barbell Biceps Curl",
           "sets": 3,
           "reps": 10,
@@ -109,6 +121,7 @@
           "list_no": 6
         },
         {
+          "id": "hammer-curl",
           "name": "Hammer Curl",
           "sets": 3,
           "reps": 12,
@@ -122,6 +135,7 @@
       "name": "Day 3- greek god",
       "workouts": [
         {
+          "id": "squat",
           "name": "Barbell Back Squat",
           "sets": 4,
           "reps": 8,
@@ -130,6 +144,7 @@
           "list_no": 1
         },
         {
+          "id": "romanian-deadlift",
           "name": "Romanian Deadlift",
           "sets": 3,
           "reps": 10,
@@ -138,6 +153,7 @@
           "list_no": 2
         },
         {
+          "id": "lunge",
           "name": "Walking Lunges",
           "sets": 3,
           "reps": 12,
@@ -146,6 +162,7 @@
           "list_no": 3
         },
         {
+          "id": "leg-curl",
           "name": "Leg Curl",
           "sets": 3,
           "reps": 12,
@@ -154,6 +171,7 @@
           "list_no": 4
         },
         {
+          "id": "standing-calf-raise",
           "name": "Standing Calf Raise",
           "sets": 4,
           "reps": 15,
@@ -162,6 +180,7 @@
           "list_no": 5
         },
         {
+          "id": "hanging-leg-raise",
           "name": "Hanging Leg Raise",
           "sets": 3,
           "reps": 15,
@@ -170,6 +189,7 @@
           "list_no": 6
         },
         {
+          "id": "plank",
           "name": "Plank",
           "sets": 3,
           "reps": null,
@@ -183,6 +203,7 @@
       "name": "Day 4- greek god",
       "workouts": [
         {
+          "id": "ohp",
           "name": "Overhead Barbell Press",
           "sets": 4,
           "reps": 8,
@@ -191,6 +212,7 @@
           "list_no": 1
         },
         {
+          "id": "lateral-raise",
           "name": "Dumbbell Lateral Raise",
           "sets": 4,
           "reps": 12,
@@ -199,6 +221,7 @@
           "list_no": 2
         },
         {
+          "id": "arnold-press",
           "name": "Arnold Press",
           "sets": 3,
           "reps": 10,
@@ -207,6 +230,7 @@
           "list_no": 3
         },
         {
+          "id": "rear-delt-fly",
           "name": "Dumbbell Rear Delt Fly",
           "sets": 3,
           "reps": 15,
@@ -215,6 +239,7 @@
           "list_no": 4
         },
         {
+          "id": "face-pull",
           "name": "Face Pull",
           "sets": 3,
           "reps": 15,
@@ -223,6 +248,7 @@
           "list_no": 5
         },
         {
+          "id": "shrug",
           "name": "Barbell Shrug",
           "sets": 3,
           "reps": 12,
@@ -236,6 +262,7 @@
       "name": "Day 5- greek god",
       "workouts": [
         {
+          "id": "incline-push-ups",
           "name": "Incline Push-Ups",
           "sets": 3,
           "reps": 15,
@@ -244,6 +271,7 @@
           "list_no": 1
         },
         {
+          "id": "pull-up",
           "name": "Pull-Ups",
           "sets": 3,
           "reps": 8,
@@ -252,6 +280,7 @@
           "list_no": 2
         },
         {
+          "id": "db-bench-press",
           "name": "Dumbbell Bench Press",
           "sets": 3,
           "reps": 10,
@@ -260,6 +289,7 @@
           "list_no": 3
         },
         {
+          "id": "single-arm-db-row",
           "name": "Dumbbell Row",
           "sets": 3,
           "reps": 10,
@@ -268,6 +298,7 @@
           "list_no": 4
         },
         {
+          "id": "lateral-raise",
           "name": "Dumbbell Lateral Raise",
           "sets": 3,
           "reps": 15,
@@ -276,6 +307,7 @@
           "list_no": 5
         },
         {
+          "id": "hammer-curl",
           "name": "Dumbbell Hammer Curl",
           "sets": 3,
           "reps": 12,
@@ -284,6 +316,7 @@
           "list_no": 6
         },
         {
+          "id": "db-skull-crusher",
           "name": "Dumbbell Skull Crusher",
           "sets": 3,
           "reps": 12,
@@ -297,6 +330,7 @@
       "name": "Day 6- greek god",
       "workouts": [
         {
+          "id": "jump-squat",
           "name": "Jump Squats",
           "sets": 4,
           "reps": 12,
@@ -305,6 +339,7 @@
           "list_no": 1
         },
         {
+          "id": "burpees",
           "name": "Burpees",
           "sets": 3,
           "reps": 10,
@@ -313,6 +348,7 @@
           "list_no": 2
         },
         {
+          "id": "push-up",
           "name": "Push-Ups",
           "sets": 3,
           "reps": 20,
@@ -321,6 +357,7 @@
           "list_no": 3
         },
         {
+          "id": null,
           "name": "Bear Crawls",
           "sets": 3,
           "reps": 20,
@@ -329,6 +366,7 @@
           "list_no": 4
         },
         {
+          "id": "hanging-knee-raise",
           "name": "Hanging Knee Raises",
           "sets": 3,
           "reps": 15,
@@ -337,6 +375,7 @@
           "list_no": 5
         },
         {
+          "id": "plank",
           "name": "Plank",
           "sets": 3,
           "reps": null,
